@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Data
+data/
+*.parquet
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Runtime state
+*.halt
+state/
+
+# Editors
+.idea/
+.vscode/
+.DS_Store

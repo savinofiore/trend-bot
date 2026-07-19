@@ -1,0 +1,23 @@
+services:
+  execution-engine:
+    build: .
+    # NOTE: restart is intentionally "on-failure" (not "always"): a logical HALT
+    # exits with code 42 and writes a sticky sentinel to /data, so the container
+    # must NOT be auto-revived past a kill switch (PRD EE-6).
+    restart: on-failure:0
+    env_file:
+      - .env
+    environment:
+      # DRY_RUN is hardcoded true here as the safe default for the committed file.
+      # Going live requires editing this AND setting BYBIT_TESTNET=false in .env.
+      DRY_RUN: "true"
+      BYBIT_TESTNET: "${BYBIT_TESTNET:-true}"
+      TRENDBOT_HALT_FILE: /data/trendbot.halt
+      TRENDBOT_DATA_DIR: /data/candles
+    volumes:
+      - trendbot-data:/data
+    stop_grace_period: 30s
+    command: ["run"]
+
+volumes:
+  trendbot-data:
